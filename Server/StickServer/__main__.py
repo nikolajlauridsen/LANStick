@@ -1,12 +1,12 @@
 import sys
 import json
-from flask import Flask, request
+from flask import Flask, request, jsonify, abort
 
 stick_server = Flask(__name__)
 
 # List of dictionaries containing connection info
 # this is probably not a good data model, but good enough for now
-con_info = []
+info_list = []
 
 
 @stick_server.route('/transfer', methods=['GET', 'POST'])
@@ -15,12 +15,20 @@ def transfer():
     Endpoint for sharing and retrieving connection data
     """
     if request.method == 'POST':
-        # Store connection info
-        return "Not yet implemented"
+        # TODO: validate form fields
+        con_info = {"id": request.form['id'],
+                    "ip": request.form['ip'],
+                    "port": int(request.form['port'])}
+        info_list.append(con_info)
+        return "Connection data saved"
 
     if request.method == 'GET':
         # Retrieve connection info
-        return "Not yet implemented"
+        for con_data in info_list:
+            if con_data['id'] == request.form['id']:
+                return jsonify(con_data)
+        # No data found
+        return "Not Found"
 
 
 @stick_server.route('/teardown', methods=['POST'])
