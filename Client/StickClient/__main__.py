@@ -8,10 +8,6 @@ if __name__ == '__main__':
     with open('config.json', 'r') as config_file:
         config = json.loads(''.join(config_file.readlines()))
 
-    ip = config["server_ip"]
-    port = config["server_port"]
-    url = f"http://{ip}:{port}/transfer"
-
     parser = argparse.ArgumentParser(description="Transfer files over lan")
     parser.add_argument('-p', '--passphrase', type=str, default=None,
                         help='Pass phrase for downloading')
