@@ -1,6 +1,7 @@
 import json
 import argparse
 import sys
+import os
 
 from .ipExchange import IpExchange
 from .file_transfer import FileTransfer
@@ -26,10 +27,10 @@ if __name__ == '__main__':
         if not args.target:
             sys.exit('No upload target provided, you must choose what to send')
 
-        passphrase = ip_exchange.send_info()
+        passphrase = ip_exchange.send_info(args.target)
         print(passphrase)
         print('Sending file...')
-        file_transfer.send_file('test.txt')
+        file_transfer.send_file(args.target)
 
     elif not args.upload:
         # Request pass phrase and hash it
@@ -41,6 +42,5 @@ if __name__ == '__main__':
         con_info = ip_exchange.get_info(passphrase)
         print(con_info)
         print('Receiving file')
-        file_transfer.receive_file(con_info['ip'], con_info['port'],
-                                   'test2.txt')
+        file_transfer.receive_file(con_info)
 

@@ -18,7 +18,8 @@ def transfer():
         # TODO: validate form fields
         con_info = {"id": request.form['id'],
                     "ip": request.form['ip'],
-                    "port": int(request.form['port'])}
+                    "port": int(request.form['port']),
+                    "filename": request.form['filename']}
         info_list.append(con_info)
         return "Connection data saved"
 

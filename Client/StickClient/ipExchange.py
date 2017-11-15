@@ -13,7 +13,7 @@ class IpExchange:
         self.rw = RandomWords()
         self.rn = RandomNicknames()
 
-    def send_info(self):
+    def send_info(self, filename):
         # Get connection info
         ip = self.get_local_ip()
 
@@ -24,6 +24,7 @@ class IpExchange:
 
         # Send it off to the server
         payload = {"id": pass_hash,
+                   "filename": filename,
                    "ip": ip,
                    "port": self.config["listening_port"]}
         res = requests.post(f'{self.sever_url}/transfer', data=payload)

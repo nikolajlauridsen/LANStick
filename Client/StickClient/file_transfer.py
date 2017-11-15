@@ -22,14 +22,15 @@ class FileTransfer:
         print('Done! Closing connection')
         connection.close()
 
-    def receive_file(self, host, port, filename):
+    def receive_file(self, con_info):
         # Establish connection
         print('Creating connection')
-        sending_connection = socket.create_connection((host, port))
+        sending_connection = socket.create_connection((con_info["ip"],
+                                                       con_info["port"]))
 
         print('Receiving file')
         # Receiving file
-        with open(filename, 'wb') as _file:
+        with open(con_info["filename"], 'wb') as _file:
             while True:
                 data = sending_connection.recv(self.buffsize)
                 if not data:
