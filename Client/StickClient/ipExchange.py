@@ -3,6 +3,7 @@ import requests
 import socket
 import hashlib
 import json
+import os
 
 
 class IpExchange:
@@ -14,6 +15,8 @@ class IpExchange:
         self.rn = RandomNicknames()
 
     def send_info(self, filename):
+        filename = os.path.split(filename)[-1]
+
         # Get connection info
         ip = self.get_local_ip()
 

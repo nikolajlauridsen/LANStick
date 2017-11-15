@@ -1,7 +1,6 @@
 import json
 import argparse
 import sys
-import os
 
 from .ipExchange import IpExchange
 from .file_transfer import FileTransfer
