@@ -20,10 +20,12 @@ if __name__ == '__main__':
     file_transfer = FileTransfer(config)
 
     if args.target:
-        passphrase = ip_exchange.send_info(args.target)
+        passphrase, con_info = ip_exchange.send_info(args.target)
         print(passphrase)
         print('Sending file...')
         file_transfer.send_file(args.target)
+        print('Telling server to forget about us.')
+        ip_exchange.teardown(con_info['id'])
 
     elif not args.target:
         # Request pass phrase and hash it

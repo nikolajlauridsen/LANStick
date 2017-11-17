@@ -9,7 +9,7 @@ import os
 class IpExchange:
     def __init__(self, config):
         self.config = config
-        self.sever_url = f'http://{config["server_ip"]}:{config["server_port"]}'
+        self.server_url = f'http://{config["server_ip"]}:{config["server_port"]}'
 
         self.rw = RandomWords()
         self.rn = RandomNicknames()
@@ -30,9 +30,9 @@ class IpExchange:
                    "filename": filename,
                    "ip": ip,
                    "port": self.config["listening_port"]}
-        res = requests.post(f'{self.sever_url}/transfer', data=payload)
+        res = requests.post(f'{self.server_url}/transfer', data=payload)
         res.raise_for_status()
-        return passphrase
+        return passphrase, payload
 
     def get_info(self, passphrase):
         # Request pass phrase and hash it
@@ -40,9 +40,15 @@ class IpExchange:
 
         # Request ip and port from server
         payload = {"id": pass_hash}
-        res = requests.get(f'{self.sever_url}/transfer', data=payload)
+        res = requests.get(f'{self.server_url}/transfer', data=payload)
         res.raise_for_status()
         return json.loads(res.content.decode())
+
+    def teardown(self, pass_hash):
+        payload = {'id': pass_hash}
+
+        res = requests.post(f'{self.server_url}/teardown', data=payload)
+        res.raise_for_status()
 
     @staticmethod
     def get_local_ip():
