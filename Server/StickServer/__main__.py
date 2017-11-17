@@ -29,7 +29,7 @@ def transfer():
             if con_data['id'] == request.form['id']:
                 return jsonify(con_data)
         # No data found
-        return "Not Found"
+        return abort(404)
 
 
 @stick_server.route('/teardown', methods=['POST'])
@@ -38,7 +38,11 @@ def teardown():
     Transfer complete, remove connection info
     :return:
     """
-    return "Not yet implemented"
+    for con_data in info_list:
+        if con_data['id'] == request.form['id']:
+            info_list.remove(con_data)
+            return "Connection data removed"
+    return abort(404)
 
 
 if __name__ == '__main__':
