@@ -28,6 +28,7 @@ class IpExchange:
         # Send it off to the server
         payload = {"id": pass_hash,
                    "filename": filename,
+                   "size": os.path.getsize(filename),
                    "ip": ip,
                    "port": self.config["listening_port"]}
         res = requests.post(f'{self.server_url}/transfer', data=payload)
