@@ -1,6 +1,5 @@
 import json
 import argparse
-import sys
 
 from .ipExchange import IpExchange
 from .file_transfer import FileTransfer
@@ -13,8 +12,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Transfer files over lan")
     parser.add_argument('-p', '--passphrase', type=str, default=None,
                         help='Pass phrase for downloading')
-    parser.add_argument('-u', '--upload', help='Set mode to upload',
-                        action='store_true', default=False)
     parser.add_argument('-t', '--target', type=str, default=None,
                         help='Target to transmit')
     args = parser.parse_args()
@@ -22,16 +19,13 @@ if __name__ == '__main__':
     ip_exchange = IpExchange(config)
     file_transfer = FileTransfer(config)
 
-    if args.upload:
-        if not args.target:
-            sys.exit('No upload target provided, you must choose what to send')
-
+    if args.target:
         passphrase = ip_exchange.send_info(args.target)
         print(passphrase)
         print('Sending file...')
         file_transfer.send_file(args.target)
 
-    elif not args.upload:
+    elif not args.target:
         # Request pass phrase and hash it
         if not args.passphrase:
             passphrase = input('Pass phrase: ')
