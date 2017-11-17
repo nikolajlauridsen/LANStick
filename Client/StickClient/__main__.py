@@ -36,6 +36,5 @@ if __name__ == '__main__':
 
         con_info = ip_exchange.get_info(passphrase)
         print(con_info)
-        print('Receiving file')
         file_transfer.receive_file(con_info)
 

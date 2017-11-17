@@ -1,10 +1,12 @@
 import socket
 
+from .PyCLIBar.CLIBar import CLIBar
+
 
 class FileTransfer:
     def __init__(self, config):
         self.config = config
-        self.buffsize = 4063
+        self.buffsize = 1024*4
 
     def send_file(self, filepath):
         # Establish connection
@@ -30,11 +32,20 @@ class FileTransfer:
 
         print('Receiving file')
         # Receiving file
+        bar = CLIBar(_max=int(con_info['size']))
         with open(con_info["filename"], 'wb') as _file:
+            bar.start()
+            count = 0
             while True:
                 data = sending_connection.recv(self.buffsize)
                 if not data:
                     break
+
                 _file.write(data)
+                if count == 100:
+                    print(bar.get_bar(), end='\r')
+                    count = 0
+                bar.step(len(data))
+                count += 1
         print('Done! Closing connection')
         sending_connection.close()
