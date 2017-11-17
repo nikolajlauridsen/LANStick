@@ -1,8 +1,21 @@
 import json
 import argparse
+from zipfile import ZipFile
+import os
 
 from .ipExchange import IpExchange
 from .file_transfer import FileTransfer
+
+
+def zip_folder(folderpath, zipname):
+    files = os.listdir(folderpath)
+    with ZipFile(zipname, 'w') as zipfile:
+        zipfile.write(folderpath)
+        for file_path in files:
+            file_path = os.path.join(folderpath, file_path)
+            print(f'Writing {file_path}')
+            zipfile.write(file_path)
+        zipfile.close()
 
 if __name__ == '__main__':
     # Read config and parse args
@@ -22,6 +35,11 @@ if __name__ == '__main__':
     if args.target:
         passphrase, con_info = ip_exchange.send_info(args.target)
         print(passphrase)
+        if not os.path.isfile(args.target):
+            print('Compressing folder')
+            zip_folder(args.target, 'tmp.zip')
+            args.target = 'tmp.zip'
+
         print('Sending file...')
         file_transfer.send_file(args.target)
         print('Telling server to forget about us.')
