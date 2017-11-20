@@ -29,8 +29,8 @@ def transfer():
         for con_data in info_list:
             if con_data['id'] == request.form['id']:
                 return jsonify(con_data)
-        # No data found
-        return abort(404)
+        # No data found bad request
+        return abort(400)
 
 
 @stick_server.route('/teardown', methods=['POST'])

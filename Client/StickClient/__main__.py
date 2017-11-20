@@ -8,11 +8,14 @@ from .file_transfer import FileTransfer
 
 
 def zip_folder(folderpath, zipname):
-    files = os.listdir(folderpath)
+    files = []
+    for trip in os.walk(folderpath):
+        for _name in trip[2]:
+            files.append(os.path.join(trip[0], _name))
+
     with ZipFile(zipname, 'w') as zipfile:
         zipfile.write(folderpath)
         for file_path in files:
-            file_path = os.path.join(folderpath, file_path)
             print(f'Writing {file_path}')
             zipfile.write(file_path)
         zipfile.close()
@@ -35,7 +38,7 @@ if __name__ == '__main__':
     if args.target:
         passphrase, con_info = ip_exchange.send_info(args.target)
         print(passphrase)
-        if not os.path.isfile(args.target):
+        if os.path.isdir(args.target):
             print('Compressing folder')
             zip_folder(args.target, 'tmp.zip')
             args.target = 'tmp.zip'
