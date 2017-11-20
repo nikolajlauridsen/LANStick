@@ -7,14 +7,20 @@ from .ipExchange import IpExchange
 from .file_transfer import FileTransfer
 
 
-def zip_folder(folderpath, zipname):
+def zip_folder(folder_path, zip_name, mode='w'):
+    """
+    Zip a folder, including all it's files.
+    :param folder_path: path to folder to be zipped
+    :param zip_name: Desired zip file name
+    :param mode: Write mode for zip file, see zipfile documentation for details
+    """
     files = []
-    for trip in os.walk(folderpath):
+    for trip in os.walk(folder_path):
         for _name in trip[2]:
             files.append(os.path.join(trip[0], _name))
 
-    with ZipFile(zipname, 'w') as zipfile:
-        zipfile.write(folderpath)
+    with ZipFile(zip_name, mode) as zipfile:
+        zipfile.write(folder_path)
         for file_path in files:
             print(f'Writing {file_path}')
             zipfile.write(file_path)
