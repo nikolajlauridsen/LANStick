@@ -22,7 +22,7 @@ def transfer():
                     "filename": request.form['filename'],
                     "zip": request.form['zip'],
                     "size": request.form['size']}
-        info_list.append(con_info)
+        info_list.append(request.form)
         return "Connection data saved"
 
     if request.method == 'GET':
