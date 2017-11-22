@@ -20,6 +20,7 @@ def transfer():
                     "ip": request.form['ip'],
                     "port": int(request.form['port']),
                     "filename": request.form['filename'],
+                    "zip": request.form['zip'],
                     "size": request.form['size']}
         info_list.append(con_info)
         return "Connection data saved"

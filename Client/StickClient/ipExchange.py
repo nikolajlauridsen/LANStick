@@ -14,7 +14,7 @@ class IpExchange:
         self.rw = RandomWords()
         self.rn = RandomNicknames()
 
-    def send_info(self, filename):
+    def send_info(self, filename, _zip='no'):
         filename = os.path.split(filename)[-1]
 
         # Get connection info
@@ -28,6 +28,7 @@ class IpExchange:
         # Send it off to the server
         payload = {"id": pass_hash,
                    "filename": filename,
+                   "zip": _zip,
                    "size": os.path.getsize(filename),
                    "ip": ip,
                    "port": self.config["listening_port"]}

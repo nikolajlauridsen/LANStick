@@ -26,6 +26,12 @@ def zip_folder(folder_path, zip_name, mode='w'):
             zipfile.write(file_path)
         zipfile.close()
 
+
+def unzip_file(zip_path):
+    with ZipFile(zip_path, 'r') as zipfile:
+        zipfile.extractall()
+        zipfile.close()
+
 if __name__ == '__main__':
     # Read config and parse args
     with open('config.json', 'r') as config_file:
@@ -42,12 +48,15 @@ if __name__ == '__main__':
     file_transfer = FileTransfer(config)
 
     if args.target:
-        passphrase, con_info = ip_exchange.send_info(args.target)
-        print(passphrase)
+        _zip = 'no'
         if os.path.isdir(args.target):
             print('Compressing folder')
             zip_folder(args.target, 'tmp.zip')
             args.target = 'tmp.zip'
+            _zip = 'yes'
+
+        passphrase, con_info = ip_exchange.send_info(args.target, _zip=_zip)
+        print(passphrase)
 
         print('Sending file...')
         file_transfer.send_file(args.target)
@@ -64,4 +73,5 @@ if __name__ == '__main__':
         con_info = ip_exchange.get_info(passphrase)
         print(con_info)
         file_transfer.receive_file(con_info)
-
+        if con_info['zip'] == "yes":
+            unzip_file(con_info['filename'])
