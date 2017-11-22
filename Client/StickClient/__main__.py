@@ -14,16 +14,15 @@ def zip_folder(folder_path, zip_name, mode='w'):
     :param zip_name: Desired zip file name
     :param mode: Write mode for zip file, see zipfile documentation for details
     """
-    files = []
-    for trip in os.walk(folder_path):
-        for _name in trip[2]:
-            files.append(os.path.join(trip[0], _name))
-
     with ZipFile(zip_name, mode) as zipfile:
+        # Write base folder
         zipfile.write(folder_path)
-        for file_path in files:
-            print(f'Writing {file_path}')
-            zipfile.write(file_path)
+        # Take a walk in the folder and write all paths
+        for trip in os.walk(folder_path):
+            for _name in trip[2]:
+                file_path = os.path.join(trip[0], _name)
+                print(f'Writing {file_path}')
+                zipfile.write(file_path)
         zipfile.close()
 
 
