@@ -56,9 +56,8 @@ if __name__ == '__main__':
             _zip = 'yes'
 
         passphrase, con_info = ip_exchange.send_info(args.target, _zip=_zip)
-        print(passphrase)
+        print(f'Passphrase: {passphrase}')
 
-        print('Sending file...')
         file_transfer.send_file(args.target)
         print('Telling server to forget about us.')
         ip_exchange.teardown(con_info['id'])
@@ -71,7 +70,9 @@ if __name__ == '__main__':
             passphrase = args.passphrase
 
         con_info = ip_exchange.get_info(passphrase)
-        print(con_info)
         file_transfer.receive_file(con_info)
         if con_info['zip'] == "yes":
+            print('Extracting file')
             unzip_file(con_info['filename'])
+            print('Removing zip file...')
+            os.remove(con_info['filename'])

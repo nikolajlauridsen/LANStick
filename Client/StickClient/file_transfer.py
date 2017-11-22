@@ -1,5 +1,4 @@
 import socket
-import time
 
 from .PyCLIBar.CLIBar import CLIBar
 
@@ -37,7 +36,6 @@ class FileTransfer:
         with open(con_info["filename"], 'wb') as _file:
             bar.start()
             count = 0
-            now = time.time()
             while True:
                 data = sending_connection.recv(self.buffsize)
                 if not data:
@@ -50,5 +48,4 @@ class FileTransfer:
                 bar.step(len(data))
                 count += 1
         print('Done! Closing connection')
-        print((time.time()-now))
         sending_connection.close()
