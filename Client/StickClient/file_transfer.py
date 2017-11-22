@@ -1,4 +1,5 @@
 import socket
+import os
 
 from .PyCLIBar.CLIBar import CLIBar
 
@@ -25,6 +26,12 @@ class FileTransfer:
         connection.close()
 
     def receive_file(self, con_info):
+        if os.path.isfile(con_info['filename']):
+            response = input(f'A file with the name {con_info["filename"]} '
+                             f'already exists\nWant to rename? y/n: ')
+            if response.strip().lower() == 'y':
+                con_info['filename'] = input('Filename: ')
+
         # Establish connection
         print('Creating connection')
         sending_connection = socket.create_connection((con_info["ip"],
