@@ -10,14 +10,14 @@ metadata and a one-time hashed passphrase as an id, the client then outputs
 the passphrase to the console.
 
 On the receiving client the passphrase from the sending client is typed in.
-The password is then hashed and send to the server, requesting connection information.
-If the hashed passphrase matches a connection info ID the info is returned to the recieving client.
+The password is then hashed and sent to the server, requesting connection information.
+If the hashed passphrase matches a connection info ID the info is returned to the receiving client.
 
 Once the receiving client gets hold of the connection information it opens a
-socket connection to the sending host and the file is transmitted.
+TCP socket connection to the sending host and the file is transmitted.
 
 If you choose a folder as a target it will automatically be zipped to a randomly
-named zip file, which will be send, and then extracted and deleted on the receiving side
+named zip file, which will be sent, and then extracted and deleted on the receiving side
 
 ## Inspiration
 This project is heavily inspired by [Magic Wormhole](https://github.com/warner/magic-wormhole).
