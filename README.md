@@ -1,4 +1,4 @@
-# LANStick
+# LANStick :warning: This is an incomplete project :warning:
 Move files between two computers over LAN with a one time password.
 
 ## Operation
@@ -20,11 +20,8 @@ If you choose a folder as a target it will automatically be zipped to a randomly
 named zip file, which will be send, and then extracted and deleted on the receiving side
 
 ## Inspiration
-This project is heavily inspired by [https://github.com/warner/magic-wormhole](Magic Wormhole).
+This project is heavily inspired by (https://github.com/warner/magic-wormhole)[Magic Wormhole].
 
 However this solution is not nearly as good, or safe as *Magic Wormhole*, the goal
 with LANStick is to create a simple way to move files over a LAN network which is deemed "safe"
 which is also why security isn't the top priority.
-
-
-:warning: This is an incomplete project
