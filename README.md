@@ -20,7 +20,7 @@ If you choose a folder as a target it will automatically be zipped to a randomly
 named zip file, which will be send, and then extracted and deleted on the receiving side
 
 ## Inspiration
-This project is heavily inspired by (https://github.com/warner/magic-wormhole)[Magic Wormhole].
+This project is heavily inspired by [Magic Wormhole](https://github.com/warner/magic-wormhole).
 
 However this solution is not nearly as good, or safe as *Magic Wormhole*, the goal
 with LANStick is to create a simple way to move files over a LAN network which is deemed "safe"
