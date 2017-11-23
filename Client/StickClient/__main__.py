@@ -16,8 +16,6 @@ def zip_folder(folder_path, zip_name, mode='w'):
     :param mode: Write mode for zip file, see zipfile documentation for details
     """
     with ZipFile(zip_name, mode) as zipfile:
-        # Write base folder
-        zipfile.write(folder_path)
         # Take a walk in the folder and write all paths
         for trip in os.walk(folder_path):
             for _name in trip[2]:
@@ -51,14 +49,15 @@ if __name__ == '__main__':
         _zip = 'no'
         zip_name = None
         if os.path.isdir(args.target):
-            print('Compressing folder')
+            print(f' Compressing {args.target} '.center(80, '='))
             zip_name = f"{str(uuid.uuid4())}.zip"
             zip_folder(args.target, zip_name)
             args.target = zip_name
             _zip = 'yes'
+            print(f' Folder compressed to: {zip_name} '.center(80, '='))
 
         passphrase, con_info = ip_exchange.send_info(args.target, _zip=_zip)
-        print(f'Passphrase: {passphrase}')
+        print(f'\nPassphrase: {passphrase}')
 
         file_transfer.send_file(args.target)
         print('Telling server to forget about us.')
