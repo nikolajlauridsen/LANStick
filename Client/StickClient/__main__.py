@@ -77,7 +77,7 @@ if __name__ == '__main__':
         con_info = ip_exchange.get_info(passphrase)
         file_transfer.receive_file(con_info)
         if con_info['zip'] == "yes":
-            print('Extracting file')
+            print(f'Extracting file: {con_info["filename"]}')
             unzip_file(con_info['filename'])
-            print('Removing zip file...')
+            print(f'Removing file: {con_info["filename"]}')
             os.remove(con_info['filename'])
