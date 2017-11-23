@@ -2,6 +2,7 @@ import json
 import argparse
 from zipfile import ZipFile
 import os
+import uuid
 
 from .ipExchange import IpExchange
 from .file_transfer import FileTransfer
@@ -48,10 +49,12 @@ if __name__ == '__main__':
 
     if args.target:
         _zip = 'no'
+        zip_name = None
         if os.path.isdir(args.target):
             print('Compressing folder')
-            zip_folder(args.target, 'tmp.zip')
-            args.target = 'tmp.zip'
+            zip_name = f"{str(uuid.uuid4())}.zip"
+            zip_folder(args.target, zip_name)
+            args.target = zip_name
             _zip = 'yes'
 
         passphrase, con_info = ip_exchange.send_info(args.target, _zip=_zip)
@@ -60,6 +63,9 @@ if __name__ == '__main__':
         file_transfer.send_file(args.target)
         print('Telling server to forget about us.')
         ip_exchange.teardown(con_info['id'])
+        if _zip == 'yes' and zip_name:
+            print(f'Removing file {zip_name}')
+            os.remove(zip_name)
 
     elif not args.target:
         # Request pass phrase and hash it
