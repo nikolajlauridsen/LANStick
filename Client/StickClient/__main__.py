@@ -30,11 +30,9 @@ def unzip_file(zip_path):
         zipfile.extractall()
         zipfile.close()
 
-if __name__ == '__main__':
-    # Read config and parse args
-    with open('config.json', 'r') as config_file:
-        config = json.loads(''.join(config_file.readlines()))
 
+def main():
+    # Parse args
     parser = argparse.ArgumentParser(description="Transfer files over lan")
     parser.add_argument('-p', '--passphrase', type=str, default=None,
                         help='Pass phrase for downloading')
@@ -42,8 +40,8 @@ if __name__ == '__main__':
                         help='Target to transmit')
     args = parser.parse_args()
 
-    ip_exchange = IpExchange(config)
-    file_transfer = FileTransfer(config)
+    ip_exchange = IpExchange()
+    file_transfer = FileTransfer()
 
     if args.target:
         _zip = 'no'
@@ -80,3 +78,7 @@ if __name__ == '__main__':
             unzip_file(con_info['filename'])
             print(f'Removing file: {con_info["filename"]}')
             os.remove(con_info['filename'])
+
+
+if __name__ == '__main__':
+    main()

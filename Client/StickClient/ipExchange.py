@@ -5,11 +5,12 @@ import hashlib
 import json
 import os
 
+from .config import server_ip, server_port, listening_port
+
 
 class IpExchange:
-    def __init__(self, config):
-        self.config = config
-        self.server_url = f'http://{config["server_ip"]}:{config["server_port"]}'
+    def __init__(self):
+        self.server_url = f'http://{server_ip}:{server_port}'
 
         self.rw = RandomWords()
         self.rn = RandomNicknames()
@@ -31,7 +32,7 @@ class IpExchange:
                    "zip": _zip,
                    "size": os.path.getsize(filename),
                    "ip": ip,
-                   "port": self.config["listening_port"]}
+                   "port": listening_port}
         res = requests.post(f'{self.server_url}/transfer', data=payload)
         res.raise_for_status()
         return passphrase, payload

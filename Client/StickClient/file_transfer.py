@@ -2,18 +2,18 @@ import socket
 import os
 
 from .PyCLIBar.CLIBar import CLIBar
+from .config import listening_port
 
 
 class FileTransfer:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self):
         self.buffsize = 1024*4
 
     def send_file(self, filepath):
         # Establish connection
         print('Creating socket.')
         listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        listen_socket.bind(('0.0.0.0', int(self.config['listening_port']),))
+        listen_socket.bind(('0.0.0.0', listening_port,))
 
         print('Awaiting connection')
         listen_socket.listen()
